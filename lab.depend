@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1477246028 source:/home/davi/lab/main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<string>
+	<math.h>
+	<iomanip>
+	<stdlib.h>
+	<vector>
+	"Util.h"
+
+1477246846 source:/home/davi/lab/src/Util.cpp
+	"Util.h"
+
+1477245737 /home/davi/lab/include/Util.h
+	<vector>
+	<map>
+	<iostream>
+	<sstream>
+	<fstream>
+	<string>
+	<iomanip>
+	<stdlib.h>
+	<math.h>
+
