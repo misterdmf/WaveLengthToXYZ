@@ -1,5 +1,7 @@
 #include "Util.h"
-
+/** author:
+    Davi Morais Ferreira, Msc.
+*/
 vector<float> Util::getWaveLen(){
     vector<float> wave;
     std::ifstream  data("wavelengths.csv");
@@ -13,12 +15,12 @@ vector<float> Util::getWaveLen(){
 
         while(std::getline(lineStream,cell,','))
         {
-           //cout <<cell<<" | ";
+
            std::getline(lineStream,cell,',');
            wave.push_back(round(atof(cell.c_str())));
-           //cout <<atof(cell.c_str());
+
         }
-        //cout <<endl;
+
     }
     return wave;
 }
@@ -40,33 +42,18 @@ vector<pair<float,float> > Util::getIntensity(vector<float> wave,map<int, vector
         {
             i++;
             float intensity = atof(cell.c_str());
-           // if(j==0 || j==1){
-            //cout <<"Fator: "<<cell<<endl;
+
                 if ( m.find(wave[i]) == m.end() ) {
-             //       cout <<wave[i]<<" NAO"<<endl;
+
                 } else {
                     X += m[wave[i]].at(0)*intensity;
                     Y += m[wave[i]].at(1)*intensity;
                     Z += m[wave[i]].at(2)*intensity;
-                   // cout <<"X"<< X<<endl;
-                  //  cout <<"Y"<< Y<<endl;
-                 //   cout <<"Z"<< Z<<endl;
-                   // cout <<m[wave[i]].at(0)<<endl;
-           //       cout <<wave[i]<<" SIM"<<endl;
+
                 }
-           // }
 
-
-            //cout << m[wave[i]].at(0) <<"|";
-
-           //std::getline(lineStream,cell,',');
-           //wave.push_back(round(atof(cell.c_str())));
-           //cout <<atof(cell.c_str());
         }
-       // cout <<j<<" linha: "<<i<<endl;
-       // cout << X<<endl;
-       // cout << Y<<endl;
-       // cout << Z<<endl;
+
         x = X/(X+Y+Z);
         y = Y/(X+Y+Z);
 
@@ -74,7 +61,6 @@ vector<pair<float,float> > Util::getIntensity(vector<float> wave,map<int, vector
         res.push_back(make_pair(x,y));
         j++;
 
-        //cout <<endl;
     }
 
 
@@ -98,34 +84,25 @@ map<int, vector<float> > Util::getCIE(){
             }else{
                 cie[key].push_back(atof(cell.c_str()));
             }
-           // cout <<cell<<" | ";
+
         }
-        //while(std::getline(lineStream,cell,','))
-        //{
-           //cout <<cell<<" | ";
-          // std::getline(lineStream,cell,',');
-           //wave.push_back(round(atof(cell.c_str())));
-           //cout <<atof(cell.c_str());
-        //}
-       // cout <<endl;
+
     }
     return cie;
 }
 
 
-pair<float,float> Util::desvio(vector<pair<float,float> > res){
+pair<float,float> Util::standDev(vector<pair<float,float> > res){
     float sumX=0,sumY=0;
     float avgX,avgY;
     float varX=0,varY=0,terX,terY;
     float n = res.size();
     for(int i=0;i<n;i++){
-        cout <<res.at(i).first<<endl;
         sumX += res.at(i).first;
         sumY += res.at(i).second;
     }
     avgX = sumX/n;
     avgY = sumY/n;
-    cout << "Media X"<<avgX<<endl;
     for(int i=0;i<n;i++){
         terX = (res.at(i).first - avgX)*(res.at(i).first - avgX);
         terY = (res.at(i).second - avgY)*(res.at(i).second - avgY);
@@ -145,14 +122,18 @@ void Util::writeResultToCsv(vector<pair<float,float> > res,pair<float,float> sd)
       myfile << "#Timestamp,x,y\n";
       for(int i=0;i<res.size();i++){
         myfile << i <<","<<res.at(i).first <<","<<res.at(i).second<<"\n";
+
+        cout <<"Color xy: ("<<res.at(i).first <<","<<res.at(i).second<<") at timestamp "<<i<<endl;
         avgX += res.at(i).first/res.size();
-        avgY += res.at(i).first/res.size();
+        avgY += res.at(i).second/res.size();
       }
     myfile.close();
 
     myfile.open ("outputStandardDeviation.csv");
       myfile << "Average X,Standard deviation X,Average Y,Standard deviation Y\n";
       myfile << avgX <<","<<sd.first <<","<<avgY <<","<<sd.second<<"\n";
+      cout <<"Average X: "<<avgX<<" +- "<<sd.first<<endl;
+      cout <<"Average Y: "<<avgY<<" +- "<<sd.second<<endl;
 
     myfile.close();
 }
