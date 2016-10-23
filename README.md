@@ -8,6 +8,14 @@
 
 Given data from an optical spectrometer, the waveToColorXY calculates the perceived **colour of the light as a (x, y) coordinates on a CIE-1931 chromaticity diagram**.
 
+## Compile
+at folder of the project run: </br>
+g++ -Wall -fexceptions -g -Iinclude -c main.cpp -o obj/Debug/main.o </br>
+g++  -o bin/Debug/lab obj/Debug/main.o obj/Debug/src/Util.o </br>
+
+## Execute
+at folder of the project run: </br>
+./bin/Debug/lab </br>
 
 ## Input data
 
@@ -82,6 +90,11 @@ Software Engineer with over 10 years experience designing and analyzing complex 
 seeking to improve the efficiency of algorithmic solutions. Teach courses in algorithm design and 
 analysis, data structure and object‐oriented programming to over 2500 students at a top 10 
 university in Brazil. 
+
+## References
+<a>http://cvrl.ioo.ucl.ac.uk/cmfs.htm</a>
+<a>https://graphics.stanford.edu/courses/cs148-10-summer/docs/2010--kerr--cie_xyz.pdf</a>
+
 
 ## License
 
